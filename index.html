@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #tree {
+            border: 1px solid black;
+            padding: 2px;
+            background-color: aqua;
+        }
+
+        .card {
+            padding: 5px;
+            border: 1px solid black;
+        }
+
+        .child_card {
+            padding: 5px;
+            border: 1px solid black;
+        }
+
+        #result {
+            border: 1px solid black;
+            padding: 2px;
+            background-color: aqua;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <input type="text" id="childName">
+        <input type="text" placeholder="O'zini kiriting (yoki bo'sh qoldiring)" id="parentName">
+    </form>
+    <button onclick="addElement()">Kiritish</button>
+
+    <div id="tree"></div>
+
+    <form>
+        <input type="text" placeholder="Shajara a'zosini yozing" id="findText">
+    </form>
+</body>
+</html>
+<body>
+    <form>
+        <input type="text" placeholder="Shajara a'zosini yozing" id="findtext">
+    </form>
+    <button onclick="FindMember()">Tekshirish</button>
+    <div id="sresult">Not found</div>
+
+    <script>
+        const lists = [
+            {name: "Boltayev Rajabboy", father: null},
+            {name: "Muhriddin Rajabov", father: "Boltayev Nuraddin"},
+            {name: "Guliston Rajabova", father: "Boltayev Toxir"},
+            {name: "Shahnoza Rajabova", father: "Boltayev Toxir"},
+            {name: "Gulshan Rajabova", father: "Boltayev Zair"},
+            {name: "Qamaraddin Rajabov", father: "Boltayev Zair"},
+            {name: "Gulruxsor Rajabova", father: "Boltayev Zair"},
+        ];
+
+        lists[1].father = "Matyoqubov Matyoqub";
+        console.log(lists[1].father);
+
+        function treeList(father = null, container = document.getElementById("tree")) {
+            for(let i = 0; i < lists.length; i++) {
+                if(lists[i].father === father) {
+                    let div = document.createElement("div");
+                    div.className = father ? "child card" : "card";
+                    div.innerHTML = "<b>" + lists[i]["name"] + "</b>";
+                    container.appendChild(div);
+                    treeList(lists[i]["name"], div);
+                }
+            }
+        }
+
+        function addElement() {
+            let name = document.getElementById("childName").value.trim();
+            let father = document.getElementById("parentName").value.trim();
+            
+            if(!name) return alert("Ismni kiriting");
+
+            lists.push({
+                name: name,
+                father: father ? father : null
+            });
+
+            document.getElementById("tree").innerHTML = "";
+            treeList();
+        }
+    </script>
+</body>
+<body>
+    <script>
+        function addElement() {
+            lists.push({
+                name: name,
+                father: father ? father : null
+            });
+
+            document.getElementById("tree").innerHTML = "";
+            treeList();
+        }
+
+        treeList();
+
+        function FindMember() {
+            let res = document.getElementById("findtext").value.toString();
+            const result = Lists.some(element => {
+                if (element.name === res) {
+                    return true;
+                }
+                return false;
+            });
+
+            if (result) {
+                document.getElementById("sresult").innerHTML = "Shajarada bunday shaxs mavjud";
+            } else {
+                document.getElementById("sresult").innerHTML = "Shajarada bunday shaxs mavjud emas";
+            }
+        }
+    </script>
+</body>
+</html>
